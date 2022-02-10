@@ -29,7 +29,7 @@ export class UsersService {
 	async findAllPhoto(id: number): Promise<Photo[]> {
 		const user = await this.findOne(id)
 		if (!user) {
-			throw new BadRequestException("Can't find user to update")
+			throw new BadRequestException("Can't find this user")
 		}
 		return user.photos
 	}

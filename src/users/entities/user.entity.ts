@@ -29,5 +29,5 @@ export class User {
 		eager: true,
 		cascade: true,
 	})
-	photos: Photo[]
+	photos?: Photo[]
 }
