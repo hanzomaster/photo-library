@@ -6,16 +6,20 @@ import { AppModule } from './app.module'
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule)
 	app.setGlobalPrefix('api')
+
+	// Global class-validation pipe
 	app.useGlobalPipes(
 		new ValidationPipe({
-			transform: true,
+			transform: true, // No need to specify pipe
 		}),
 	)
+
+	// Global class-tranformer
 	app.useGlobalInterceptors(
 		new ClassSerializerInterceptor(app.get(Reflector)),
 	)
 
-	// Swagger
+	// Swagger (Documentation)
 	const config = new DocumentBuilder()
 		.setTitle('Photo Library')
 		.setDescription('Contain user with photos')

@@ -1,5 +1,5 @@
 
-# A simple API for managing people photos
+# A simple REST API for managing people photos
 
 ## Description
 
@@ -10,7 +10,7 @@ I use Nest(NestJS) which is a framework for building Node.js server-side applica
 ## Installation
 
 ```bash
-npm install
+npm ci
 ```
 
 ## Running the app
