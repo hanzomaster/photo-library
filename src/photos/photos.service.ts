@@ -13,35 +13,35 @@ export class PhotosService {
 	async create(createPhotoDto: CreatePhotoDto): Promise<Photo> {
 		try {
 			const newPhoto = this.photoRepo.create(createPhotoDto)
-			await this.photoRepo.save(newPhoto)
-			return newPhoto
+			return Promise.resolve(this.photoRepo.save(newPhoto))
 		} catch (error) {
 			throw new BadRequestException("Can't create photo")
 		}
 	}
 
 	async findAll(): Promise<Photo[]> {
-		return this.photoRepo.find()
+		return Promise.resolve(this.photoRepo.find())
 	}
 
 	async findOne(id: number): Promise<Photo> {
-		return this.photoRepo.findOneOrFail(id)
+		const photo = await this.photoRepo.findOneOrFail(id)
+		return Promise.resolve(photo)
 	}
 
 	async update(id: number, updatePhotoDto: UpdatePhotoDto): Promise<Photo> {
-		const photo = await this.findOne(id)
-		if (!photo) {
-			throw new BadRequestException("Can't find photo to update")
+		const updatedPhoto = await this.findOne(id)
+		if (!updatedPhoto) {
+			throw new BadRequestException("Can't find user to update")
 		}
 		this.photoRepo.update(id, updatePhotoDto)
-		return this.photoRepo.save(photo)
+		return Promise.resolve(this.photoRepo.save(updatedPhoto))
 	}
 
 	async remove(id: number): Promise<Photo> {
-		const photo = await this.findOne(id)
-		if (!photo) {
+		const deletedPhoto = await this.findOne(id)
+		if (!deletedPhoto) {
 			throw new BadRequestException("Can't find photo to delete")
 		}
-		return this.photoRepo.remove(photo)
+		return Promise.resolve(this.photoRepo.remove(deletedPhoto))
 	}
 }

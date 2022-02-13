@@ -2,6 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { Photo } from '../photos/entities/photo.entity'
+import { encodedPassword } from '../utils/bcrypt'
 import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { User } from './entities/user.entity'
@@ -13,38 +14,37 @@ export class UsersService {
 	) {}
 
 	async create(createUserDto: CreateUserDto): Promise<User> {
+		const password = encodedPassword(createUserDto.password)
 		try {
-			const newUser = this.userRepo.create(createUserDto)
-			await this.userRepo.save(newUser)
-			return newUser
+			const newUser = this.userRepo.create({ ...createUserDto, password })
+			return Promise.resolve(this.userRepo.save(newUser))
 		} catch (error) {
 			throw new BadRequestException("Can't create user")
 		}
 	}
 
 	async findAll(): Promise<User[]> {
-		return this.userRepo.find()
+		const users = await this.userRepo.find()
+		return Promise.resolve(users)
 	}
 
 	async findAllPhoto(id: number): Promise<Photo[]> {
 		const user = await this.findOne(id)
-		if (!user) {
-			throw new BadRequestException("Can't find this user")
-		}
-		return user.photos
+		return Promise.resolve(user.photos)
 	}
 
 	async findOne(id: number): Promise<User> {
-		return this.userRepo.findOneOrFail(id)
+		const user = await this.userRepo.findOneOrFail(id)
+		return Promise.resolve(user)
 	}
 
 	async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
-		const user = await this.findOne(id)
-		if (!user) {
+		const updatedUser = await this.findOne(id)
+		if (!updatedUser) {
 			throw new BadRequestException("Can't find user to update")
 		}
 		this.userRepo.update(id, updateUserDto)
-		return this.userRepo.save(user)
+		return Promise.resolve(this.userRepo.save(updatedUser))
 	}
 
 	async remove(id: number): Promise<User> {
@@ -52,6 +52,6 @@ export class UsersService {
 		if (!user) {
 			throw new BadRequestException("Can't find user to delete")
 		}
-		return this.userRepo.remove(user)
+		return Promise.resolve(this.userRepo.remove(user))
 	}
 }
