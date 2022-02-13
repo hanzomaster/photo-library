@@ -5,6 +5,7 @@ import config from '../ormconfig'
 import { PhotosModule } from './photos/photos.module'
 import { UsersModule } from './users/users.module'
 import { LoggingMiddleware } from './utils/logging.middleware'
+import { AuthModule } from './auth/auth.module'
 
 @Module({
 	imports: [
@@ -12,6 +13,7 @@ import { LoggingMiddleware } from './utils/logging.middleware'
 		TypeOrmModule.forRoot(config),
 		UsersModule,
 		PhotosModule,
+		AuthModule,
 	],
 })
 export class AppModule implements NestModule {

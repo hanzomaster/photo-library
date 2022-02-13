@@ -6,8 +6,11 @@ import {
 	Param,
 	Patch,
 	Post,
+	Request,
+	UseGuards,
 } from '@nestjs/common'
-import { ApiTags } from '@nestjs/swagger'
+import { ApiExcludeEndpoint, ApiTags } from '@nestjs/swagger'
+import { LocalAuthGuard } from '../auth/guards/local-auth.guard'
 import { Photo } from '../photos/entities/photo.entity'
 import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
@@ -18,6 +21,13 @@ import { UsersService } from './users.service'
 @Controller('users')
 export class UsersController {
 	constructor(private readonly usersService: UsersService) {}
+
+	@ApiExcludeEndpoint()
+	@UseGuards(LocalAuthGuard)
+	@Post('login')
+	login(@Request() req): any {
+		return req.user
+	}
 
 	@Post()
 	create(@Body() createUserDto: CreateUserDto): Promise<User> {

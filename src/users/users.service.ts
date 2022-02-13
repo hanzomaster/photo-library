@@ -38,6 +38,11 @@ export class UsersService {
 		return Promise.resolve(user)
 	}
 
+	async findOneByName(username: string): Promise<User> {
+		const user = await this.userRepo.findOneOrFail({ username })
+		return Promise.resolve(user)
+	}
+
 	async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
 		const updatedUser = await this.findOne(id)
 		if (!updatedUser) {
