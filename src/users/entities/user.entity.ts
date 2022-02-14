@@ -12,7 +12,9 @@ export class User {
 	@Column()
 	username: string
 
-	@Exclude()
+	@Exclude({
+		toPlainOnly: true,
+	})
 	@Column()
 	password: string
 

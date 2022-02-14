@@ -24,7 +24,11 @@ export class UsersService {
 	}
 
 	async findAll(): Promise<User[]> {
-		const users = await this.userRepo.find()
+		const users = await this.userRepo.find({
+			order: {
+				id: 'ASC',
+			},
+		})
 		return Promise.resolve(users)
 	}
 

@@ -20,7 +20,13 @@ export class PhotosService {
 	}
 
 	async findAll(): Promise<Photo[]> {
-		return Promise.resolve(this.photoRepo.find())
+		return Promise.resolve(
+			this.photoRepo.find({
+				order: {
+					id: 'ASC',
+				},
+			}),
+		)
 	}
 
 	async findOne(id: number): Promise<Photo> {
