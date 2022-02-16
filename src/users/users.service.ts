@@ -42,6 +42,11 @@ export class UsersService {
 		return Promise.resolve(user)
 	}
 
+	/**
+	 * Find user by username
+	 * @param username Username of the user
+	 * @returns The user with the given username
+	 */
 	async findOneByName(username: string): Promise<User> {
 		const user = await this.userRepo.findOneOrFail({ username })
 		return Promise.resolve(user)
@@ -53,6 +58,7 @@ export class UsersService {
 			throw new BadRequestException("Can't find user to update")
 		}
 		this.userRepo.update(id, updateUserDto)
+		// ? Do we really need to save the updated user?
 		return Promise.resolve(this.userRepo.save(updatedUser))
 	}
 

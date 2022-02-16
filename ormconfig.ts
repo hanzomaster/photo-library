@@ -12,7 +12,7 @@ const config: PostgresConnectionOptions = {
 	password: process.env.DB_PASSWORD,
 	schema: process.env.DB_SCHEMA,
 	database: process.env.DB_NAME,
-	entities: [join(__dirname, '**', '*.entity.{ts,js}')],
+	entities: [join(__dirname, '**', '*.entity.{ts,js}')], // * Need to be this way to work with both running and debugging
 	synchronize: true,
 	logging: true,
 }
