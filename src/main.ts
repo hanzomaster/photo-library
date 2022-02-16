@@ -1,4 +1,8 @@
-import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common'
+import {
+	ClassSerializerInterceptor,
+	Logger,
+	ValidationPipe,
+} from '@nestjs/common'
 import { NestFactory, Reflector } from '@nestjs/core'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import helmet from 'helmet'
@@ -38,6 +42,6 @@ async function bootstrap() {
 	})
 
 	await app.listen(3000)
-	console.log(`Application is running on: ${await app.getUrl()}/api/swagger`)
+	Logger.log(`Playground is running on: ${await app.getUrl()}/swagger`)
 }
 bootstrap()
