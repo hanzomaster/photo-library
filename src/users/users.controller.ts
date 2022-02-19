@@ -10,6 +10,7 @@ import {
 	UseGuards,
 } from '@nestjs/common'
 import { ApiExcludeEndpoint, ApiTags } from '@nestjs/swagger'
+import { UpdateResult } from 'typeorm'
 import { LocalAuthGuard } from '../auth/guards/local-auth.guard'
 import { Photo } from '../photos/entities/photo.entity'
 import { CreateUserDto } from './dto/create-user.dto'
@@ -53,7 +54,7 @@ export class UsersController {
 	update(
 		@Param('id') id: number,
 		@Body() updateUserDto: UpdateUserDto,
-	): Promise<User> {
+	): Promise<UpdateResult> {
 		return this.usersService.update(id, updateUserDto)
 	}
 

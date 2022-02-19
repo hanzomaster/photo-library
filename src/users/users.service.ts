@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
+import { Repository, UpdateResult } from 'typeorm'
 import { Photo } from '../photos/entities/photo.entity'
 import { encodedPassword } from '../utils/bcrypt'
 import { CreateUserDto } from './dto/create-user.dto'
@@ -52,14 +52,15 @@ export class UsersService {
 		return Promise.resolve(user)
 	}
 
-	async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
+	async update(
+		id: number,
+		updateUserDto: UpdateUserDto,
+	): Promise<UpdateResult> {
 		const updatedUser = await this.findOne(id)
 		if (!updatedUser) {
 			throw new BadRequestException("Can't find user to update")
 		}
-		this.userRepo.update(id, updateUserDto)
-		// ? Do we really need to save the updated user?
-		return Promise.resolve(this.userRepo.save(updatedUser))
+		return Promise.resolve(this.userRepo.update(id, updateUserDto))
 	}
 
 	async remove(id: number): Promise<User> {

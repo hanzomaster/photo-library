@@ -17,7 +17,7 @@ module.exports = {
 	ignorePatterns: ['.eslintrc.js', 'db/', 'dist/', 'node_module/', 'public/'],
 	rules: {
 		'prettier/prettier': [
-			'warn',
+			'error',
 			{},
 			{
 				usePrettierrc: true,
