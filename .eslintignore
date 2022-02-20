@@ -1,0 +1,7 @@
+.eslintrc.js
+db/
+dist/
+node_module/
+public/
+.github/workflows/**/*.yml
+package-lock.json
