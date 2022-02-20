@@ -35,6 +35,5 @@ jobs:
           VALIDATE_ALL_CODEBASE: true
           DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TYPESCRIPT_ES_CONFIG_FILE: .eslintrc.js
           ACTIONS_RUNNER_DEBUG: true
           DISABLE_ERRORS: true
