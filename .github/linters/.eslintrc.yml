@@ -33,6 +33,10 @@ parserOptions:
 plugins:
   - '@typescript-eslint/eslint-plugin'
 
+extends:
+  - 'plugin:@typescript-eslint/recommended'
+  - 'plugin:prettier/recommended'
+
 #########
 # Rules #
 #########
@@ -57,16 +61,6 @@ rules:
   '@typescript-eslint/no-explicit-any': off
   '@typescript-eslint/no-unused-vars': off
   '@typescript-eslint/no-inferrable-types': off
-
-
-ignorePatterns:
-  - '.eslintrc.js'
-  - 'db/'
-  - 'dist/'
-  - 'node_module/'
-  - 'public//'
-  - '.github/**/*.yml/'
-  - 'package-lock.json/'
 
 ##############################
 # Overrides for JSON parsing #
