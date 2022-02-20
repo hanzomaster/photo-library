@@ -1,4 +1,4 @@
-name: Lint
+name: Test
 
 on:
   push:
@@ -13,7 +13,7 @@ permissions:
   contents: write
 
 jobs:
-  run-linters:
+  run-test:
     name: Run linters
     runs-on: windows-latest
 
@@ -29,9 +29,8 @@ jobs:
       - name: Install Node.js dependencies
         run: npm ci
 
-      - name: Run linters
-        uses: wearerequired/lint-action@v1
-        with:
-          github_token: ${{ secrets.github_token }}
-          eslint: true
-          prettier: true
+      - name: Run test
+        run: npm test
+
+      - name: Run build
+        run: npm run build
