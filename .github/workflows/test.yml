@@ -14,7 +14,7 @@ permissions:
 
 jobs:
   run-test:
-    name: Run linters
+    name: Run test
     runs-on: windows-latest
 
     steps:
