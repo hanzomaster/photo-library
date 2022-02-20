@@ -1,0 +1,101 @@
+---
+#############################
+#############################
+## JavaScript Linter rules ##
+#############################
+#############################
+
+############
+# Env Vars #
+############
+env:
+  node: true
+  jest: true
+
+###############
+# Global Vars #
+###############
+globals:
+  Atomics: readonly
+  SharedArrayBuffer: readonly
+
+###############
+# Parser vars #
+###############
+parser: '@typescript-eslint/parser'
+parserOptions:
+  project: 'tsconfig.json'
+  sourceType: module
+
+###########
+# Plugins #
+###########
+plugins:
+  - '@typescript-eslint/eslint-plugin'
+
+#########
+# Rules #
+#########
+rules:
+  prettier/prettier:
+    - error
+    - tabWidth: 4
+      semi: false
+      trailingComma: all
+      arrowParens: avoid
+      endOfLine: crlf
+      useTabs: true
+      singleQuote: true
+      printWidth: 80
+      jsxSingleQuote: true
+      bracketSpacing: true
+      bracketSameLine: false
+    - usePrettierrc: false
+  '@typescript-eslint/interface-name-prefix': off
+  '@typescript-eslint/explicit-function-return-type': off
+  '@typescript-eslint/explicit-module-boundary-types': off
+  '@typescript-eslint/no-explicit-any': off
+  '@typescript-eslint/no-unused-vars': off
+  '@typescript-eslint/no-inferrable-types': off
+
+
+ignorePatterns:
+  - '.eslintrc.js'
+  - 'db/'
+  - 'dist/'
+  - 'node_module/'
+  - 'public//'
+  - '.github/**/*.yml/'
+  - 'package-lock.json/'
+
+##############################
+# Overrides for JSON parsing #
+##############################
+overrides:
+
+  # JSON files
+  - files:
+      - "*.json"
+    extends:
+      - plugin:jsonc/recommended-with-json
+    parser: jsonc-eslint-parser
+    parserOptions:
+      jsonSyntax: JSON
+
+  # JSONC files
+  - files:
+      - "*.jsonc"
+    extends:
+      - plugin:jsonc/recommended-with-jsonc
+    parser: jsonc-eslint-parser
+    parserOptions:
+      jsonSyntax: JSONC
+
+  # JSON5 files
+  - files:
+      - "*.json5"
+    extends:
+      - plugin:jsonc/recommended-with-json5
+    parser: jsonc-eslint-parser
+    parserOptions:
+      jsonSyntax: JSON5
