@@ -14,7 +14,15 @@ module.exports = {
 		node: true,
 		jest: true,
 	},
-	ignorePatterns: ['.eslintrc.js', 'db/', 'dist/', 'node_module/', 'public/'],
+	ignorePatterns: [
+		'.eslintrc.js',
+		'db/',
+		'dist/',
+		'node_module/',
+		'public/',
+		'.github/workflows/**/*.yml',
+		'package-lock.json',
+	],
 	rules: {
 		'prettier/prettier': [
 			'error',
