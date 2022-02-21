@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common'
+import { BadRequestException, Injectable, Logger } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository, UpdateResult } from 'typeorm'
 import { Photo } from '../photos/entities/photo.entity'
@@ -15,12 +15,8 @@ export class UsersService {
 
 	async create(createUserDto: CreateUserDto): Promise<User> {
 		const password = encodedPassword(createUserDto.password)
-		try {
-			const newUser = this.userRepo.create({ ...createUserDto, password })
-			return Promise.resolve(this.userRepo.save(newUser))
-		} catch (error) {
-			throw new BadRequestException("Can't create user")
-		}
+		const newUser = this.userRepo.create({ ...createUserDto, password })
+		return Promise.resolve(this.userRepo.save(newUser))
 	}
 
 	async findAll(): Promise<User[]> {
@@ -38,8 +34,12 @@ export class UsersService {
 	}
 
 	async findOne(id: number): Promise<User> {
-		const user = await this.userRepo.findOneOrFail(id)
-		return Promise.resolve(user)
+		try {
+			return await this.userRepo.findOneOrFail(id)
+		} catch (error) {
+			Logger.error(`Can't find user with id ${id}`, 'UsersService')
+			throw new BadRequestException("Can't find user")
+		}
 	}
 
 	/**
@@ -48,7 +48,10 @@ export class UsersService {
 	 * @returns The user with the given username
 	 */
 	async findOneByName(username: string): Promise<User> {
-		const user = await this.userRepo.findOneOrFail({ username })
+		const user = await this.userRepo.findOne({ username })
+		if (!user) {
+			throw new BadRequestException("Can't find user")
+		}
 		return Promise.resolve(user)
 	}
 

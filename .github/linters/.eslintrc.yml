@@ -47,7 +47,7 @@ rules:
       semi: false
       trailingComma: all
       arrowParens: avoid
-      endOfLine: crlf
+      endOfLine: lf
       useTabs: true
       singleQuote: true
       printWidth: 80
