@@ -11,6 +11,8 @@ import {
 } from '@nestjs/common'
 import { ApiExcludeEndpoint, ApiTags } from '@nestjs/swagger'
 import { UpdateResult } from 'typeorm'
+import { AuthService } from '../auth/auth.service'
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard'
 import { LocalAuthGuard } from '../auth/guards/local-auth.guard'
 import { Photo } from '../photos/entities/photo.entity'
 import { CreateUserDto } from './dto/create-user.dto'
@@ -21,13 +23,16 @@ import { UsersService } from './users.service'
 @ApiTags('users')
 @Controller('users')
 export class UsersController {
-	constructor(private readonly usersService: UsersService) {}
+	constructor(
+		private readonly usersService: UsersService,
+		private readonly authService: AuthService,
+	) {}
 
 	@ApiExcludeEndpoint()
 	@UseGuards(LocalAuthGuard)
 	@Post('login')
 	login(@Request() req): any {
-		return req.user
+		return this.authService.login(req.user)
 	}
 
 	@Post()
@@ -35,6 +40,7 @@ export class UsersController {
 		return this.usersService.create(createUserDto)
 	}
 
+	@UseGuards(JwtAuthGuard)
 	@Get()
 	findAll(): Promise<User[]> {
 		return this.usersService.findAll()

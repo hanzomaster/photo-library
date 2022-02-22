@@ -49,9 +49,6 @@ export class UsersService {
 	 */
 	async findOneByName(username: string): Promise<User> {
 		const user = await this.userRepo.findOne({ username })
-		if (!user) {
-			throw new BadRequestException("Can't find user")
-		}
 		return Promise.resolve(user)
 	}
 
