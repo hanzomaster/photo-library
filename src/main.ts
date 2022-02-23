@@ -12,7 +12,7 @@ async function bootstrap() {
 	const app = await NestFactory.create(AppModule)
 	app.use(helmet())
 	app.enableCors()
-	app.setGlobalPrefix('api')
+	// app.setGlobalPrefix('api')
 
 	// Global class-validation pipe
 	app.useGlobalPipes(

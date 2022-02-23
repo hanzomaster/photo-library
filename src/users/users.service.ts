@@ -43,11 +43,21 @@ export class UsersService {
 	}
 
 	/**
+	 * Find user by mail
+	 * @param email Email of the user
+	 * @returns The user with the given email
+	 */
+	async findOneByEmail(email: string): Promise<User> {
+		const user = await this.userRepo.findOne({ email })
+		return Promise.resolve(user)
+	}
+
+	/**
 	 * Find user by username
 	 * @param username Username of the user
 	 * @returns The user with the given username
 	 */
-	async findOneByName(username: string): Promise<User> {
+	async findOneByUsername(username: string): Promise<User> {
 		const user = await this.userRepo.findOne({ username })
 		return Promise.resolve(user)
 	}
