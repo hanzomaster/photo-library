@@ -5,42 +5,21 @@ import {
 	Get,
 	Param,
 	Patch,
-	Post,
-	Request,
 	UseGuards,
 } from '@nestjs/common'
-import { ApiExcludeEndpoint, ApiTags } from '@nestjs/swagger'
+import { ApiTags } from '@nestjs/swagger'
 import { UpdateResult } from 'typeorm'
-import { AuthService } from '../auth/auth.service'
-import { LocalAuthGuard } from '../auth/guards/local-auth.guard'
-import { SkipAuth } from '../decorators/skip-auth.decorator'
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard'
 import { Photo } from '../photos/entities/photo.entity'
-import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { User } from './entities/user.entity'
 import { UsersService } from './users.service'
 
 @ApiTags('users')
+@UseGuards(JwtAuthGuard)
 @Controller('users')
 export class UsersController {
-	constructor(
-		private readonly usersService: UsersService,
-		private readonly authService: AuthService,
-	) {}
-
-	@ApiExcludeEndpoint()
-	@SkipAuth()
-	@UseGuards(LocalAuthGuard)
-	@Post('auth/login')
-	login(@Request() req): any {
-		return this.authService.login(req.user as User)
-	}
-
-	@SkipAuth()
-	@Post('auth/register')
-	register(@Body() createUserDto: CreateUserDto): Promise<User> {
-		return this.usersService.create(createUserDto)
-	}
+	constructor(private readonly usersService: UsersService) {}
 
 	@Get()
 	findAll(): Promise<User[]> {

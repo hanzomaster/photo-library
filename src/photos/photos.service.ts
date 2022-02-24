@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common'
+import { BadRequestException, Injectable, Logger } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { CreatePhotoDto } from './dto/create-photo.dto'
@@ -15,7 +15,8 @@ export class PhotosService {
 			const newPhoto = this.photoRepo.create(createPhotoDto)
 			return Promise.resolve(this.photoRepo.save(newPhoto))
 		} catch (error) {
-			throw new BadRequestException("Can't create photo")
+			Logger.error(error, 'PhotosService')
+			throw new BadRequestException('Wrong input data')
 		}
 	}
 
@@ -30,8 +31,12 @@ export class PhotosService {
 	}
 
 	async findOne(id: number): Promise<Photo> {
-		const photo = await this.photoRepo.findOneOrFail(id)
-		return Promise.resolve(photo)
+		try {
+			return await this.photoRepo.findOneOrFail(id)
+		} catch (error) {
+			Logger.error(`Can't find photo with id ${id}`, 'PhotosService')
+			throw new BadRequestException("Can't find photo")
+		}
 	}
 
 	async update(id: number, updatePhotoDto: UpdatePhotoDto): Promise<Photo> {

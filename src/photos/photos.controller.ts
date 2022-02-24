@@ -6,14 +6,17 @@ import {
 	Param,
 	Patch,
 	Post,
+	UseGuards,
 } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard'
 import { CreatePhotoDto } from './dto/create-photo.dto'
 import { UpdatePhotoDto } from './dto/update-photo.dto'
 import { Photo } from './entities/photo.entity'
 import { PhotosService } from './photos.service'
 
 @ApiTags('photos')
+@UseGuards(JwtAuthGuard)
 @Controller('photos')
 export class PhotosController {
 	constructor(private readonly photosService: PhotosService) {}

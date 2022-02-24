@@ -15,8 +15,13 @@ export class UsersService {
 
 	async create(createUserDto: CreateUserDto): Promise<User> {
 		const password = encodedPassword(createUserDto.password)
-		const newUser = this.userRepo.create({ ...createUserDto, password })
-		return Promise.resolve(this.userRepo.save(newUser))
+		try {
+			const newUser = this.userRepo.create({ ...createUserDto, password })
+			return Promise.resolve(this.userRepo.save(newUser))
+		} catch (error) {
+			Logger.error(error, 'UsersService')
+			throw new BadRequestException('Wrong input data')
+		}
 	}
 
 	async findAll(): Promise<User[]> {

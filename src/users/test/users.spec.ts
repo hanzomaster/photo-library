@@ -48,7 +48,7 @@ describe('UserController', () => {
 			password: 'password',
 			firstName: 'test',
 			lastName: 'test',
-			email: 'osdifhi@gmail.com',
+			email: 'abcd@abcd.com',
 		}
 		it('should encoded password correctly', async () => {
 			await service.create(attributes)
